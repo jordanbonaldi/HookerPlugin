@@ -14,6 +14,10 @@ public class HookerPlugin extends ExtendablePlugin {
 
     private HookerManager manager;
 
+    public static HookerPlugin getInstance() {
+        return (HookerPlugin) CoreEngine.getInstance().getPlugin(HookerPlugin.class);
+    }
+
     @Override
     public void onEnable() {
         this.manager = new HookerManager();
