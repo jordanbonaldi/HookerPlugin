@@ -1,11 +1,12 @@
 package net.neferett.hookerplugin.HookerManager;
 
 import lombok.Data;
-import lombok.experimental.Delegate;
+import lombok.SneakyThrows;
 import net.neferett.coreengine.CoreEngine;
 import net.neferett.coreengine.Processors.Logger.Logger;
 import net.neferett.hookerplugin.Hooker.Hooker;
-import net.neferett.hookerplugin.Hooker.Pair.Pair;
+import net.neferett.hookerplugin.Hooker.HookerTask.HookerTask;
+import net.neferett.hookerplugin.Instances.Pair;
 import net.neferett.hookerplugin.HookerPlugin;
 import net.neferett.redisapi.RedisAPI;
 
@@ -17,6 +18,12 @@ import java.util.Objects;
 public class HookerManager {
 
     private List<Hooker> hookers = new ArrayList<>();
+
+    private HookerTask hookerTask;
+
+    private Thread hookerThread;
+
+    private boolean stopHooking = false;
 
     protected RedisAPI redisAPI = CoreEngine.getInstance().getRedisAPI();
 
@@ -33,12 +40,25 @@ public class HookerManager {
         return Objects.requireNonNull(this.hookers.stream().findFirst().orElse(null)).getPair(symbol);
     }
 
-    public void hookAllData() {
-        this.hookers.forEach(e -> {
-            System.out.println(e.getName());
+    public void hookAllPairs() {
+        this.hookers.forEach(Hooker::pushPairs);
+    }
 
-            e.hook();
-        });
+    public void hookAllTrades() {
+        this.hookerTask = new HookerTask("HookerManager:41 - Hooking", null) {
+            @Override
+            @SneakyThrows
+            public void run() {
+                while (!stopHooking) {
+                    hookers.forEach(Hooker::testAndHook);
+                    Thread.sleep(1000);
+                }
+            }
+        };
+
+        this.hookerThread = new Thread(this.hookerTask);
+
+        this.hookerThread.start();
     }
 
 }
