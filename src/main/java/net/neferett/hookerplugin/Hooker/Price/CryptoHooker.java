@@ -27,7 +27,6 @@ public class CryptoHooker extends PriceHooker {
     @Override
     @SneakyThrows
     public void hook() {
-        System.out.println("Hooking");
         this.trades.forEach(e -> HookerTastManager.getInstance().addTask(new CryptoHookerTask(e.getPair(), this)));
     }
 }

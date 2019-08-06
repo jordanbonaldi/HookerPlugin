@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,12 @@ public abstract class Hooker extends HookerManager {
     }
 
     private boolean newTrades() {
-        List<Trade> newTrades = this.redisAPI.contains(Trade.class).values().stream().map(e -> (Trade) e).collect(Collectors.toList());
+        Map<String, Object> objects = this.redisAPI.contains(Trade.class);
+
+        if (objects == null)
+            return false;
+
+        List<Trade> newTrades = objects.values().stream().map(e -> (Trade) e).filter(e -> e.getStatus() == TradeStatus.OPENED).collect(Collectors.toList());
 
         if (this.trades.size() == 0) {
             this.trades = newTrades;
@@ -51,17 +57,14 @@ public abstract class Hooker extends HookerManager {
             return this.trades.size() != 0;
         }
 
-        boolean equals = newTrades.equals(this.trades);
-
-        if (!equals)
-            this.trades = newTrades;
-
-        return equals;
+        return true;
     }
 
     public void testAndHook() {
-        if (this.newTrades())
+        if (this.newTrades()) {
+            System.out.println("Hooking");
             this.hook();
+        }
     }
 
     protected JSONObject hookHttpData(String url) {
