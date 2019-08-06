@@ -6,6 +6,7 @@ import net.neferett.coreengine.Utils.UrlRequester;
 import net.neferett.hookerplugin.Instances.Pair;
 import net.neferett.hookerplugin.HookerManager.HookerManager;
 import net.neferett.tradingplugin.Trade.Trade;
+import net.neferett.tradingplugin.Trade.TradeStatus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public abstract class Hooker extends HookerManager {
     public abstract void hook();
 
     public Trade findTradeBySymbol(String symbol) {
-        return this.trades.stream().filter(e -> e.getPair().equalsIgnoreCase(symbol)).findFirst().orElse(null);
+        return this.trades.stream().filter(e -> e.getPair().equalsIgnoreCase(symbol) && e.getStatus() == TradeStatus.OPENED).findFirst().orElse(null);
     }
 
     private boolean newTrades() {
