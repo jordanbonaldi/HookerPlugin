@@ -3,17 +3,16 @@ package net.neferett.hookerplugin.Hooker;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.neferett.coreengine.Utils.UrlRequester;
-import net.neferett.hookerplugin.Instances.Pair;
 import net.neferett.hookerplugin.HookerManager.HookerManager;
+import net.neferett.hookerplugin.Instances.Pair;
+import net.neferett.tradingplugin.Trade.Enums.TradeStatus;
 import net.neferett.tradingplugin.Trade.Trade;
-import net.neferett.tradingplugin.Trade.TradeStatus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
