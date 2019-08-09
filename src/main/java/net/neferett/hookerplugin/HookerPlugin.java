@@ -7,6 +7,7 @@ import net.neferett.coreengine.Processors.Plugins.ExtendablePlugin;
 import net.neferett.coreengine.Processors.Plugins.Plugin;
 import net.neferett.hookerplugin.Hooker.HookerTask.HookerTastManager;
 import net.neferett.hookerplugin.Hooker.Price.CryptoHooker;
+import net.neferett.hookerplugin.Hooker.Price.ForexHooker;
 import net.neferett.hookerplugin.HookerManager.HookerManager;
 
 @Plugin(name = "HookerPlugin", configPath = "HookerPlugin/config.json")
@@ -27,6 +28,7 @@ public class HookerPlugin extends ExtendablePlugin {
         this.hookerTastManager = new HookerTastManager();
 
         this.manager.addHooker(new CryptoHooker());
+        this.manager.addHooker(new ForexHooker());
 
         /** Update all datas **/
         this.manager.hookAllPairs();
@@ -34,7 +36,6 @@ public class HookerPlugin extends ExtendablePlugin {
         Logger.log("Launching hooker for all running trades");
 
         this.manager.hookAllTrades();
-
     }
 
     @Override

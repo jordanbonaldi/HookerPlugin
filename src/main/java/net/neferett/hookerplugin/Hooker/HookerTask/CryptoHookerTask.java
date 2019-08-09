@@ -19,13 +19,10 @@ public class CryptoHookerTask extends HookerTask {
 
     private BinanceApi api;
 
-    private BinanceSymbol binanceSymbol;
-
     @SneakyThrows
     public CryptoHookerTask(String symbol, Hooker hooker) {
         super(symbol, hooker);
 
-        this.binanceSymbol = new BinanceSymbol(symbol);
         this.api = ((CryptoHooker)hooker).getApi();
     }
 
@@ -36,7 +33,9 @@ public class CryptoHookerTask extends HookerTask {
 
         while ((trade = hooker.findTradeBySymbol(symbol)) != null) {
             System.out.println(this.api.pricesMap().get(this.symbol));
-            TradeManager.getInstance().updatePrice(this.api.pricesMap().get(this.symbol), trade);
+            TradeManager.getInstance().updatePrice(this.api.pricesMap().get(this.symbol).floatValue(), trade);
         }
+
+        HookerTastManager.getInstance().removeTask(this);
     }
 }

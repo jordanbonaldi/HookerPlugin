@@ -12,6 +12,10 @@ public class HookerTastManager {
         return HookerPlugin.getInstance().getHookerTastManager();
     }
 
+    public void removeTask(HookerTask task) {
+        this.hookerTasks.remove(task);
+    }
+
     private boolean isExist(String symbol) {
         return this.hookerTasks.keySet().stream().filter(e -> e.getSymbol().equalsIgnoreCase(symbol)).findFirst().orElse(null) != null;
     }

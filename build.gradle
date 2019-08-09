@@ -41,8 +41,8 @@ dependencies {
     compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.9'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     compile name: 'RedisAPI-all-1.0-SNAPSHOT'
-    compile name: 'TradingPlugin-all-1.0-SNAPSHOT'
-    compile name: 'CoreEngine-all-1.2-SNAPSHOT'
+    implementation name: 'TradingPlugin-all-1.0-SNAPSHOT'
+    implementation name: 'CoreEngine-all-1.2-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
